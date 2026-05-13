@@ -35,7 +35,13 @@ Admin PowerShell:
 .\nvpi.ps1     # NVIDIA Profile Inspector + ultimate-perf.nip import
 ```
 
-Reboot.
+Reboot, then:
+
+```powershell
+.\verify.ps1   # post-run state check
+```
+
+A System Restore point is created at the start of `tweaks.ps1`. Roll back from `rstrui.exe` if needed.
 
 ## BIOS
 

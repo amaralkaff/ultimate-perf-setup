@@ -1,5 +1,9 @@
 #Requires -RunAsAdministrator
 
+# --- Restore point first ---
+Enable-ComputerRestore -Drive 'C:\' -ErrorAction SilentlyContinue
+Checkpoint-Computer -Description 'before ultimate-perf-setup' -RestorePointType MODIFY_SETTINGS -ErrorAction SilentlyContinue
+
 # --- Power: Ultimate Performance, CPU locked 100%, no sleep ---
 $g = (powercfg /list | Select-String "Ultimate Performance" | Select-Object -First 1).ToString() -replace '.*GUID: ([0-9a-f-]+).*','$1'
 if (-not $g) {
