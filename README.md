@@ -4,6 +4,28 @@ Windows 10/11 desktop tweaks for gaming. Trades idle power for sustained perf, s
 
 Tested: i5-12400F, RTX 3070 Ti, B660. Works on similar Intel + NVIDIA builds.
 
+## Before / After
+
+Measured on my box (i5-12400F + RTX 3070 Ti + 16GB DDR4):
+
+| Item | Before | After |
+|---|---|---|
+| Power plan | Balanced | Revision - Ultra Performance |
+| CPU min/max | 5% / 100% | 100% / 100% |
+| RAM speed | 2400 MHz (SPD default) | 3200 MHz (XMP) |
+| ReBAR / BAR1 | 256 MiB | 8192 MiB |
+| HAGS | off | on |
+| Hibernation | on | off |
+| Fast Startup | on | off |
+| GPU driver | 595.71 (full) | 596.49 (NVCleanstall minimal) |
+| NVCP Power Mgmt | Optimal | Prefer max performance |
+| NVCP Low Latency | off | Ultra |
+| Background services | DiagTrack, SysMain, WSearch, Xbl* running | disabled |
+| UWP bloat | Xbox/Bing/Zune/3D Viewer/etc | deprovisioned |
+| WEI score | n/a | CPU 9.1, GPU 9.9, Disk 8.55 |
+
+XMP and ReBAR are the big ones. Everything else cuts micro-stutter and input lag, not framerate.
+
 ## Run
 
 Admin PowerShell:
