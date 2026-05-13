@@ -74,6 +74,23 @@ powercfg /setacvalueindex $g SUB_PROCESSOR PROCTHROTTLEMIN 5
 powercfg /setactive $g
 ```
 
+## Going deeper
+
+This repo covers the 80/20. If you want to chase frame-time variance and microsecond input latency, these go further:
+
+- [BoringBoredom/PC-Optimization-Hub](https://github.com/BoringBoredom/PC-Optimization-Hub) — meta-guide
+- [djdallmann/GamingPCSetup](https://github.com/djdallmann/GamingPCSetup) — kernel timers, IRQ, MSI mode
+- [PC-Tuning/PC-Tuning](https://github.com/PC-Tuning/PC-Tuning) — automated deep tweaks
+- Calypto's Windows guide (see Optimization Hub for link)
+
+Tools they use for measurement, not optimization:
+
+- **PresentMon / FrameView** — frame-time capture for validation
+- **Process Explorer + Autoruns** (Sysinternals) — startup + process inspection past Task Manager's view
+- **USB Device Tree Viewer** — pick USB ports wired directly to the CPU root hub for mouse/keyboard
+
+If you tweak without measuring, you're guessing.
+
 ## License
 
 MIT.
