@@ -74,6 +74,20 @@ powercfg /setacvalueindex $g SUB_PROCESSOR PROCTHROTTLEMIN 5
 powercfg /setactive $g
 ```
 
+## What's in tweaks.ps1
+
+Power: Ultra Performance plan, CPU min/max=100%, core parking off, no sleep, hibernation off, fast startup off.
+
+Display: visual effects=best perf, transparency/animations off, HAGS on, Game DVR off.
+
+Network: Nagle off all NICs, throttling index off, RSS on, ECN/timestamps off, NetBIOS over TCP off, NICs no longer suspend to save power.
+
+Storage: TRIM verified + retrim, NTFS skips last-access updates and 8.3 short names.
+
+Cleanup: telemetry/Cortana/ads/bg apps off via policy, Xbox + Search + SysMain + DiagTrack services disabled, page file system-managed, ProcessIdleTasks run.
+
+A System Restore point is taken first.
+
 ## Going deeper
 
 This repo covers the 80/20. If you want to chase frame-time variance and microsecond input latency, these go further:

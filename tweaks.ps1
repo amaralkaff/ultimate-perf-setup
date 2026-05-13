@@ -75,7 +75,30 @@ if (-not $cs.AutomaticManagedPagefile) {
     }
 }
 
+# --- NIC: disable "allow turn off to save power" + NetBIOS over TCP ---
+Get-NetAdapter -Physical | ForEach-Object {
+    $pnp = $_.PnPDeviceID
+    $key = "HKLM:\SYSTEM\CurrentControlSet\Enum\$pnp\Device Parameters\WDF"
+    if (Test-Path $key) { Set-ItemProperty $key IdleInWorkingState 0 -Type DWord -ErrorAction SilentlyContinue }
+}
+Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\Interfaces' -ErrorAction SilentlyContinue | ForEach-Object {
+    Set-ItemProperty $_.PSPath NetbiosOptions 2 -Type DWord -ErrorAction SilentlyContinue
+}
+
+# --- NTFS: skip last-access updates, skip 8.3 short names ---
+fsutil behavior set disableLastAccess 1 | Out-Null
+fsutil behavior set disable8dot3 1 | Out-Null
+
+# --- Core parking off (Win11 default, harmless on Win10) ---
+$active = (powercfg /getactivescheme).ToString() -replace '.*GUID: ([0-9a-f-]+).*','$1'
+powercfg /setacvalueindex $active SUB_PROCESSOR CPMINCORES 100 2>$null
+powercfg /setacvalueindex $active SUB_PROCESSOR CPMINCORES1 100 2>$null
+powercfg /setactive $active
+
 # --- TRIM run ---
 Optimize-Volume -DriveLetter C -ReTrim -ErrorAction SilentlyContinue
+
+# --- ProcessIdleTasks: lets Windows finish pending maintenance now ---
+Rundll32.exe advapi32.dll,ProcessIdleTasks
 
 Write-Host "Done. Reboot to apply." -ForegroundColor Green
