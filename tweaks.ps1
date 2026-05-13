@@ -76,10 +76,12 @@ if (-not $cs.AutomaticManagedPagefile) {
 }
 
 # --- NIC: disable "allow turn off to save power" + NetBIOS over TCP ---
-Get-NetAdapter -Physical | ForEach-Object {
-    $pnp = $_.PnPDeviceID
-    $key = "HKLM:\SYSTEM\CurrentControlSet\Enum\$pnp\Device Parameters\WDF"
-    if (Test-Path $key) { Set-ItemProperty $key IdleInWorkingState 0 -Type DWord -ErrorAction SilentlyContinue }
+$nicClass = 'HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}'
+Get-ChildItem $nicClass -ErrorAction SilentlyContinue | Where-Object { $_.PSChildName -match '^\d{4}$' } | ForEach-Object {
+    $desc = (Get-ItemProperty $_.PSPath -ErrorAction SilentlyContinue).DriverDesc
+    if ($desc -match 'Ethernet|GbE|LAN|Realtek|Intel|Killer') {
+        Set-ItemProperty $_.PSPath PnPCapabilities 0x18 -Type DWord -ErrorAction SilentlyContinue
+    }
 }
 Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\Interfaces' -ErrorAction SilentlyContinue | ForEach-Object {
     Set-ItemProperty $_.PSPath NetbiosOptions 2 -Type DWord -ErrorAction SilentlyContinue
