@@ -41,7 +41,13 @@ Reboot, then:
 .\verify.ps1   # post-run state check
 ```
 
-A System Restore point is created at the start of `tweaks.ps1`. Roll back from `rstrui.exe` if needed.
+A System Restore point is created at the start of `tweaks.ps1`. Roll back from `rstrui.exe`, or:
+
+```powershell
+.\revert.ps1   # undoes tweaks.ps1 (services, power, network, visuals)
+```
+
+`revert.ps1` won't restore deprovisioned UWP apps — those come back only after a Windows feature update.
 
 ## BIOS
 
